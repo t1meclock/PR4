@@ -33,6 +33,11 @@ public class BlogController {
         return "blog-main";
     }
 
+//    @RequestMapping(value="/", method = RequestMethod.GET)
+//    public String getSuccess() {
+//        return "blog-main";
+//    }
+
     @GetMapping("/blog/add")
     public String blogAdd(Model model) {
         return "blog-add";
@@ -81,6 +86,7 @@ public class BlogController {
         return "blog-profile";
     }
 
+
     @PostMapping("/blog/profile")
     public String blogPostProfile(@RequestParam String nickname,
                                   @RequestParam String surename,
@@ -101,7 +107,7 @@ public class BlogController {
     }
 
     @GetMapping("/blog/comm")
-    public String blogComm(Model model) {
+    public String blogComments(Model model) {
 
         Iterable<Comm> comments = commRepository.findAll();
         model.addAttribute("comm", comments);
@@ -109,20 +115,28 @@ public class BlogController {
         return "blog-comm";
     }
 
-    @PostMapping("blog/comm")
-    public String createComm(@RequestParam String caption,
-                                @RequestParam String comm,
-                                @RequestParam String time,
-                                @RequestParam String author,
-                                @RequestParam String mark, Model model){
-        Comm comment = new Comm(caption, comm, time, author, mark);
+    @GetMapping("/blog/comm/add")
+    public String blogCommentsAdd(Model model)
+    {
+
+        return "blog-comm-add";
+    }
+
+    @PostMapping("blog/comm/add")
+    public String blogCommentsAdd(@RequestParam String caption,
+                                  @RequestParam String comm,
+                                  @RequestParam String author,
+                                  @RequestParam String mark,
+                                  @RequestParam String time, Model model){
+        Comm comment = new Comm(caption, comm, author, mark, time);
         commRepository.save(comment);
         model.addAttribute("caption", caption);
         model.addAttribute("comm", comm);
-        model.addAttribute("time", time);
         model.addAttribute("author", author);
         model.addAttribute("mark", mark);
-        return "blog-comm";
+        model.addAttribute("time", time);
+
+        return "redirect:/blog/comm";
     }
 
     @GetMapping("/blog/profiles/{id}")
@@ -278,14 +292,66 @@ public class BlogController {
         comms.setAuthor(author);
         comms.setMark(mark);
         commRepository.save(comms);
-        return "redirect:/";
+        return "redirect:/blog/comm";
     }
 
     @PostMapping("/blog/comm/{id}/remove")
     public String blogBlogDeleteComm(@PathVariable("id") long id, Model model) {
         Comm comm = commRepository.findById(id).orElseThrow();
         commRepository.delete(comm);
-        return "redirect:/";
+        return "redirect:/blog/comm";
+    }
+
+    @GetMapping("/blog/filtercomm")
+    public String blogFilterComments(Model model)
+    {
+        return "blog-comm-filter";
+    }
+
+    @PostMapping("/blog/filter/comment")
+    public String blogResultComments(@RequestParam String author, Model model)
+    {
+        List<Comm> results = commRepository.findByAuthorContains(author);
+        model.addAttribute("results", results);
+//        List<Post> result = postRepository.findByTitleContains(title);
+//        model.addAttribute("result", result);
+        return "blog-comm-filter";
+    }
+
+    @PostMapping("/blog/filter/comments")
+    public String blogResultsComments(@RequestParam String author, Model model)
+    {
+        List<Comm> results = commRepository.findByAuthor(author);
+        model.addAttribute("results", results);
+//        List<Post> result = postRepository.findByTitleContains(title);
+//        model.addAttribute("result", result);
+        return "blog-comm-filter";
+    }
+
+    @GetMapping("/blog/filterprofile")
+    public String blogFilterProfile(Model model)
+    {
+        return "blog-profiles-filter";
+    }
+
+    @PostMapping("/blog/filter/profile")
+    public String blogResultProfile(@RequestParam String nickname, Model model)
+    {
+        List<Profile> results = profileRepository.findByNicknameContains(nickname);
+        model.addAttribute("results", results);
+//        List<Post> result = postRepository.findByTitleContains(title);
+//        model.addAttribute("result", result);
+        return "blog-profiles-filter";
+    }
+
+    @PostMapping("/blog/filter/profiles")
+    public String blogResultsProfiles(@RequestParam String nickname, Model model)
+    {
+        List<Profile> results = profileRepository.findByNickname(nickname);
+        model.addAttribute("results", results);
+//        List<Post> result = postRepository.findByTitleContains(title);
+//        model.addAttribute("result", result);
+        return "blog-profiles-filter";
     }
 }
 

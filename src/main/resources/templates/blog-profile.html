@@ -1,84 +1,144 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Создание профиля</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <style>
-    .form-control {
+    .page{
+      margin: 0 auto;
+      padding-top: 28px;
+    }
+    h1,h2,h3{
+      margin: 0;
+      padding: 0;
+    }
+    body{
+      margin: 0;
+      padding: 0;
+    }
+    p{
+      margin: 0;
+      padding: 0;
+    }
+    .header{
+      max-width: 1220px;
+      max-height: 80px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-content: center;
+      margin: 0 auto 40px;
+    }
+    .profiles{
+      display: flex;
+      flex-direction: column;
+      padding-left: 16px;
+      padding-top: 9px;
+      position: relative;
+    }
+    .header__profile{
+      display: flex;
+      flex-direction: row;
+      height: 80px;
+    }
+    .header__title{
       font-family: "Montserrat Medium";
-      display: block;
-      width: 100%;
-      padding: 0.375rem 0.75rem;
-      font-size: 1rem;
+      color: cadetblue;
+      font-weight: 200;
+      font-size: 32px;
+    }
+    .links{
+      font-family: "Montserrat Medium";
+      margin-top: 10px;
+      text-decoration: lightblue;
+      color: cadetblue;
+      transition: opacity .5s linear;
+      width: 150px;
+    }
+    .links:hover{
+      opacity: .2;
+      text-decoration: underline;
+    }
+    .other-link{
       font-weight: 400;
-      line-height: 1.5;
-      color: #212529;
-      background-color: #fff;
-      background-clip: padding-box;
-      border: 1px solid #ced4da;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      border-radius: 0.375rem;
-      transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      font-size: 16px;
+    }
+    .other-link:first-child{
+      margin-right: 26px;
     }
   </style>
 </head>
+
 <body>
-<form>
-  <div style="display: flex; flex-direction: column; width: 200px">
-    <p>Никнейм: </p>
-    <input type="text" class="form-control" name="nickname" placeholder="Введите никнейм">
-    <p>Фамилия: </p>
-    <input type="text" class="form-control" name="surename" placeholder="Введите фамилию">
-    <p>Имя: </p>
-    <input type="text" class="form-control" name="name" placeholder="Введите имя">
-    <p>Отчество: </p>
-    <input type="text" class="form-control" name="patron" placeholder="Введите отчество">
-    <p>О себе: </p>
-    <textarea name="about_me" class="form-control" placeholder="Напишите что-нибудь о себе"></textarea>
-    <p>Возраст: </p>
-    <input type="number"class="form-control" name="age" placeholder="Введите возраст">
-    <br>
-    <button formmethod="post" formaction="/blog/profile" type="submit" style="border-radius: 12px; border: none; font-size: 16px;
+
+<div class="page">
+  <header class="header">
+    <div class="header__profile">
+      <h1 class="header__title">Профиль</h1>
+      <div class="profiles">
+        <a class="links" href="/blog/filterprofile">Поиск профилей</a>
+
+      </div>
+    </div>
+    <div class="header__nav-links">
+      <a class="links other-link" href="/">Посты</a>
+      <a class="links other-link" href="/blog/comm">Отзывы</a>
+    </div>
+  </header>
+  <form>
+    <div style="display: flex; flex-direction: column; width: 200px">
+      <p>Никнейм: </p>
+      <input type="text" class="form-control" name="nickname" placeholder="Введите никнейм">
+      <p>Фамилия: </p>
+      <input type="text" class="form-control" name="surename" placeholder="Введите фамилию">
+      <p>Имя: </p>
+      <input type="text" class="form-control" name="name" placeholder="Введите имя">
+      <p>Отчество: </p>
+      <input type="text" class="form-control" name="patron" placeholder="Введите отчество">
+      <p>О себе: </p>
+      <textarea name="about_me" class="form-control" placeholder="Напишите что-нибудь о себе"></textarea>
+      <p>Возраст: </p>
+      <input type="number"class="form-control" name="age" placeholder="Введите возраст">
+      <br>
+      <button formmethod="post" formaction="/blog/profile" type="submit" style="border-radius: 12px; border: none; font-size: 16px;
   margin: 4px 2px; background-color: bisque;">Создать профиль</button>
-    <br>
-  </div>
-
-  <div th:each="el : ${profiles}">
-    <div style="display: flex; flex-direction: row">
-      <label for="nickname" style="margin-right: 10px">Никнейм:</label>
-      <p id='nickname' th:text="${el.nickname}" style="margin: 0px; font-weight: bold"></p>
-    </div>
-    <div style="display: flex; flex-direction: row">
-      <label for="name" style="margin-right: 10px" >Имя:</label>
-      <p id='name' th:text="${el.name}" style="margin: 0px"></p>
+      <br>
     </div>
 
-    <div style="display: flex; flex-direction: row">
-      <label for="surename" style="margin-right: 10px">Фамилия:</label>
-      <p id='surename' th:text="${el.surename}" style="margin: 0px"></p>
+    <div th:each="el : ${profiles}">
+      <div style="display: flex; flex-direction: row">
+        <label for="nickname" style="margin-right: 10px">Никнейм:</label>
+        <p id='nickname' th:text="${el.nickname}" style="margin: 0px; font-weight: bold"></p>
+      </div>
+      <div style="display: flex; flex-direction: row">
+        <label for="name" style="margin-right: 10px" >Имя:</label>
+        <p id='name' th:text="${el.name}" style="margin: 0px"></p>
+      </div>
+
+      <div style="display: flex; flex-direction: row">
+        <label for="surename" style="margin-right: 10px">Фамилия:</label>
+        <p id='surename' th:text="${el.surename}" style="margin: 0px"></p>
+      </div>
+
+      <div style="display: flex; flex-direction: row">
+        <label for="patron" style="margin-right: 10px">Отчетство:</label>
+        <p id='patron' th:text="${el.patron}" style="margin: 0px"></p>
+      </div>
+
+      <div style="display: flex; flex-direction: row">
+        <label for="about_me" style="margin-right: 10px" >Про себя:</label>
+        <p id='about_me' th:text="${el.about_me}" style="margin: 0px"></p>
+      </div>
+
+      <div style="display: flex; flex-direction: row">
+        <label for="age" style="margin-right: 10px" >Возраст:</label>
+        <p id='age' th:text="${el.age}" style="margin: 0px"></p>
+      </div>
+      <a th:href="'/blog/profiles/' + ${el.id}">Подробнее</a>
+
+      <p>===================</p>
+      </div>
+     </form>
     </div>
-
-    <div style="display: flex; flex-direction: row">
-      <label for="patron" style="margin-right: 10px">Отчетство:</label>
-      <p id='patron' th:text="${el.patron}" style="margin: 0px"></p>
-    </div>
-
-    <div style="display: flex; flex-direction: row">
-      <label for="about_me" style="margin-right: 10px" >Про себя:</label>
-      <p id='about_me' th:text="${el.about_me}" style="margin: 0px"></p>
-    </div>
-
-    <div style="display: flex; flex-direction: row">
-      <label for="age" style="margin-right: 10px" >Возраст:</label>
-      <p id='age' th:text="${el.age}" style="margin: 0px"></p>
-    </div>
-    <a th:href="'/blog/profiles/' + ${el.id}">Подробнее</a>
-
-    <p>===================</p>
-  </div>
-</form>
-
-</body>
+  </body>
 </html>

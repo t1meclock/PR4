@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Добавление новой статьи</title>
+<title>Добавление нового поста</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style>
   .form-control {
@@ -26,11 +26,11 @@
 <body>
 <form th:action="${'/blog/add'}" method="post">
   <p>Введите название статьи: </p>
-  <input type="text" class="form-control" name="title" placeholder="Введите название статьи">
+  <input type="text" class="form-control" name="title" placeholder="Введите название поста">
   <p>Введите анонс статьи: </p>
-  <input type="text" class="form-control" name="anons" placeholder="Введите анонс статьи">
+  <input type="text" class="form-control" name="anons" placeholder="Введите анонс поста">
   <p>Введите текст статьи: </p>
-  <textarea name="full_text" class="form-control" placeholder="Введите текст статьи"></textarea>
+  <textarea name="full_text" class="form-control" placeholder="Введите текст поста"></textarea>
   <br>
   <button type="submit" style="border-radius: 12px; border: none; font-size: 16px;
   margin: 4px 2px; background-color: bisque;">Добавить статью</button>

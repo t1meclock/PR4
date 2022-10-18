@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Поиск отзывов</title>
+  <style>
+    .page{
+      margin: 0 auto;
+      padding-top: 28px;
+    }
+    h1,h2,h3{
+      margin: 0;
+      padding: 0;
+    }
+    body{
+      margin: 0;
+      padding: 0;
+    }
+    p{
+      margin: 0;
+      padding: 0;
+    }
+
+    .header{
+      max-width: 1220px;
+      max-height: 80px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-content: center;
+      margin: 0 auto 40px;
+    }
+    .posts{
+      font-family: "Montserrat Medium";
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+      margin-right: 5px;
+      margin-top: 0px;
+      position: relative;
+    }
+    .header__title{
+      font-family: "Montserrat Medium";
+      color: cadetblue;
+      font-weight: 200;
+      font-size: 32px;
+    }
+    .links{
+      font-family: "Montserrat Medium";
+      margin-top: 10px;
+      text-decoration: lightblue;
+      color: cadetblue;
+      transition: opacity .5s linear;
+      width: 150px;
+    }
+    .links:hover{
+      opacity: .2;
+      text-decoration: underline;
+    }
+    .main-link{
+      font-weight: 400;
+      margin-left: 150px;
+      margin-bottom: -30px;
+      font-size: 16px;
+      line-height: 19px;
+    }
+    .other-link{
+      font-weight: 400;
+      margin-top: 5px;
+      font-size: 16px;
+      padding-left: 10px;
+    }
+    .other-link:first-child{
+      margin-right: 26px;
+    }
+    .content_box{
+      font-family: "Montserrat Light";
+      width: 840px;
+      height: auto;
+      margin: 0 auto 16px;
+      background: #ced4da;
+      border-radius: 20px;
+      padding: 10px 34px 0;
+    }
+    .label__text{
+      margin-right: 10px;
+    }
+    .text_box{
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 19px;
+      margin-top: 10px;
+    }
+    .box-flex{
+      display: flex;
+      flex-direction: row;
+    }
+    .box-margin{
+      margin-bottom: 60px;
+    }
+    .link-more{
+      margin-left: 600px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <header class="header">
+    <h1 class="header__title">Поиск отзывов</h1>
+  </header>
+
+  <form>
+    <div class="input-flex">
+      <input class="input-class" type="text" name="author" placeholder="Автор отзыва">
+      <div class="button-flex">
+        <button class="button-class" formaction="/blog/filter/comment" formmethod="post" type="submit">Неточный поиск</button>
+        <button class="button-class" formaction="/blog/filter/comments" formmethod="post"  type="submit">Точный поиск</button>
+      </div>
+
+    </div>
+
+
+    <div class="content_box" th:each="el : ${results}">
+      <div class="box-flex">
+        <label   for="author" class="text_box label__text">Автор:</label>
+        <p id='author' th:text="${el.author}" class="text_box"></p>
+      </div>
+
+      <div class="box-flex">
+        <label for="comm" class="text_box label__text" >Текст отзыва:</label>
+        <p id='comm' th:text="${el.comm}" class="text_box"></p>
+      </div>
+      <div class="box-flex">
+        <label for="time" class="text_box label__text" >Дата написания отзыва:</label>
+        <p id='time' th:text="${el.time}" class="text_box"></p>
+      </div>
+
+      <div class="box-flex">
+        <label for="mark" class="text_box label__text" >Оценка отзыва:</label>
+        <p id='mark' th:text="${el.mark}" class="text_box"></p>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
