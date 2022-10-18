@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Поиск</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 0.375rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+<h2>Поиск</h2>
+<form>
+    <div style="display: flex; flex-direction: column; width: 200px">
+        <input type="text" name="title" class="form-control" placeholder="Название статьи">
+        <br>
+        <button formaction="/blog/filter/result" formmethod="post" type="submit" style="border-radius: 12px; border: none; font-size: 16px;
+        margin: 4px 2px; background-color: bisque;">Неточный поиск</button>
+        <br>
+        <button formaction="/blog/filter/results"  formmethod="post"  type="submit" style="border-radius: 12px; border: none; font-size: 16px;
+        margin: 4px 2px; background-color: bisque;">Точный поиск</button>
+    </div>
+    <br>
+    <div th:each="el : ${results}">
+        <div style="display: flex; flex-direction: row">
+            <label for="title" style="margin-right: 10px">Название статьи:</label>
+            <h3 id="title" th:text="${el.title}" style="margin: 0px"></h3>
+        </div>
+
+        <div style="display: flex; flex-direction: row">
+            <label for="anons" style="margin-right: 10px">Анонс:</label>
+            <p id="anons" th:text="${el.anons}" style="margin: 0px"></p>
+        </div>
+
+        <div style="display: flex; flex-direction: row">
+            <label for="full" style="margin-right: 10px">Текст статьи:</label>
+            <p id="full" th:text="${el.full_text}" style="margin: 0px"></p>
+        </div>
+        <p>==========================</p>
+    </div>
+</form>
+</body>
+</html>

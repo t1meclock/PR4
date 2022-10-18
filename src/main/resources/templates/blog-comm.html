@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Комментарии</title>
+    <style>
+        .page{
+            margin: 0 auto;
+            padding-top: 28px;
+        }
+        h1,h2,h3{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        p{
+            margin: 0;
+            padding: 0;
+        }
+
+        .header{
+            max-width: 1220px;
+            max-height: 80px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-content: center;
+            margin: 0 auto 40px;
+        }
+        .posts{
+            font-family: "Montserrat Medium";
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            margin-right: 5px;
+            margin-top: 0px;
+            position: relative;
+        }
+        .header__title{
+            font-family: "Montserrat Medium";
+            color: cadetblue;
+            font-weight: 200;
+            font-size: 32px;
+        }
+        .links{
+            font-family: "Montserrat Medium";
+            margin-top: 10px;
+            text-decoration: lightblue;
+            color: cadetblue;
+            transition: opacity .5s linear;
+            width: 150px;
+        }
+        .links:hover{
+            opacity: .2;
+            text-decoration: underline;
+        }
+        .main-link{
+            font-weight: 400;
+            margin-left: 150px;
+            margin-bottom: -30px;
+            font-size: 16px;
+            line-height: 19px;
+        }
+        .other-link{
+            font-weight: 400;
+            margin-top: 5px;
+            font-size: 16px;
+        }
+        .other-link:first-child{
+            margin-right: 26px;
+        }
+        .content_box{
+            font-family: "Montserrat Light";
+            width: 840px;
+            height: 184px;
+            margin: 0 auto 16px;
+            background: #ced4da;
+            border-radius: 20px;
+            padding: 10px 34px 0;
+        }
+        .label__text{
+            margin-right: 10px;
+        }
+        .text_box{
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 19px;
+            margin-top: 10px;
+        }
+        .box-flex{
+            display: flex;
+            flex-direction: row;
+        }
+        .box-margin{
+            margin-bottom: 60px;
+        }
+        .link-more{
+            margin-top: 5px;
+            margin-left: 720px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <div class="header__comments">
+            <h1 class="header__title">Комментарии</h1>
+            <div class="comments">
+            </div>
+        </div>
+        <div class="header__nav-links">
+            <a class="links other-link" href="/">Статьи</a>
+            <a class="links other-link" href="/blog/profile">Профили</a>
+        </div>
+    </header>
+
+    <form >
+        <div class="content_box" th:each="el : ${comm}">
+            <div class="box-flex">
+                <label class="text_box label__text" for="caption" style="margin-right: 10px">Заголовок:</label>
+                <p id='caption' th:text="${el.caption}" class="text_box"></p>
+            </div>
+            <div class="box-flex">
+                <label class="text_box label__text" for="comm" style="margin-right: 10px" >Текст комментария:</label>
+                <p id='comm' th:text="${el.comm}" class="text_box"></p>
+            </div>
+
+            <div class="box-flex">
+                <label class="text_box label__text" for="author" style="margin-right: 10px">Автор:</label>
+                <p id='author' th:text="${el.author}" class="text_box"></p>
+            </div>
+
+            <div class="box-flex">
+                <label class="text_box label__text" for="time" style="margin-right: 10px" >Дата написания комментария:</label>
+                <p id='time' th:text="${el.time}" class="text_box"></p>
+            </div>
+
+            <div class="box-flex box-margin">
+                <label class="text_box label__text" for="mark" style="margin-right: 10px" >Оценка поста:</label>
+                <p id='mark' th:text="${el.mark}" class="text_box"></p>
+            </div>
+            <a class="links link-more" th:href="'/blog/comm/' + ${el.id}">Подробнее</a>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

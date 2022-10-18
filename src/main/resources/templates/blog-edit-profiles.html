@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавление новой статьи</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:each="el : ${profiles}">
+    <form method="post">
+        <input th:value="${el.nickname}" type="text" name="nickname" placeholder="Никнейм">
+        <input th:value="${el.surename}" type="text" name="surename" placeholder="Фамилия">
+        <input th:value="${el.name}" type="text" name="name" placeholder="Имя">
+        <input th:value="${el.patron}" type="text" name="patron" placeholder="Отчество">
+        <textarea th:value="${el.about_me}" type="text" name="about_me" placeholder="Обо мне"></textarea>
+        <input th:value="${el.age}" type="number" name="age" placeholder="Возраст">
+        <br>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</div>
+</body>
+</html>

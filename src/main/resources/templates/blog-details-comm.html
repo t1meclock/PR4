@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="el : ${comm}">
+    <div style="display: flex; flex-direction: row">
+        <label for="caption" style="margin-right: 10px">Заголовок:</label>
+        <p id='caption' th:text="${el.caption}" style="margin: 0px; font-weight: bold"></p>
+    </div>
+    <div style="display: flex; flex-direction: row">
+        <label for="comm" style="margin-right: 10px" >Текст отзыва:</label>
+        <p id='comm' th:text="${el.comm}" style="margin: 0px"></p>
+    </div>
+
+    <div style="display: flex; flex-direction: row">
+        <label for="author" style="margin-right: 10px">Автор:</label>
+        <p id='author' th:text="${el.author}" style="margin: 0px"></p>
+    </div>
+
+    <div style="display: flex; flex-direction: row">
+        <label for="time" style="margin-right: 10px" >Дата написания отзыва:</label>
+        <p id='time' th:text="${el.time}" style="margin: 0px"></p>
+    </div>
+
+    <div style="display: flex; flex-direction: row">
+        <label for="mark" style="margin-right: 10px" >Оценка отзыва:</label>
+        <p id='mark' th:text="${el.mark}" style="margin: 0px"></p>
+    </div>
+    <a th:href="'/blog/comm/' + ${el.id} + '/edit'">Редактировать</a>
+    <form th:action="'/blog/comm/' + ${el.id} + '/remove'" method="post">
+        <button type="submit" class="btn btn-del">Удалить</button>
+    </form>
+</div>
+</body>
+</html>

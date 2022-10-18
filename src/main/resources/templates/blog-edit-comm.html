@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:each="el : ${comm}" style="display: flex; flex-direction: column; width: 200px">
+    <form method="post">
+        <input type="text" th:value="${el.caption}" name="caption" placeholder="Заголовок">
+        <input type="text" th:value="${el.comm}" name="comm" placeholder="Текст комментария">
+        <input type="text" th:value="${el.author}" name="author" placeholder="Автор комментария">
+        <input type="datetime-local" th:value="${el.time}" name="time" placeholder="Дата">
+        <label>Оценка:</label>
+        <label for="one">1</label>
+        <input type="radio" th:value="${el.mark}" id="one" name="mark" value="1">
+        <label for="two">2</label>
+        <input type="radio" th:value="${el.mark}" id="two" name="mark" value="2">
+        <label for="three">3</label>
+        <input type="radio" th:value="${el.mark}" id="three" name="mark" value="3">
+        <label for="four">4</label>
+        <input type="radio" th:value="${el.mark}" id="four" name="mark" value="4">
+        <label for="five">5</label>
+        <input type="radio" th:value="${el.mark}" id="five" name="mark" value="5">
+        <br>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование статьи</title>
+</head>
+<body>
+<div th:each="el:${post}">
+    <h3>Подробнее про статью</h3>
+    <p>Заголовок: </p>
+    <h3 th:text="${el.title}"></h3>
+    <p>Анонс: </p>
+    <p th:text="${el.anons}"></p>
+    <p>Текст статьи: </p>
+    <p th:text="${el.full_text}"></p>
+    <a th:href="'/blog/' + ${el.id} + '/edit'">Редактировать</a>
+    <br>
+    <form th:action="'/blog/' + ${el.id} + '/remove'" method="post">
+        <button type="submit" class="btn btn-del">Удалить</button>
+    </form>
+</div>
+</body>
+</html>

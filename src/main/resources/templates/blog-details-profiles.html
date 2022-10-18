@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактировать профиль</title>
+</head>
+<body>
+<div th:each="el : ${profiles}">
+  <div style="display: flex; flex-direction: row">
+    <label for="nickname" style="margin-right: 10px">Никнейм:</label>
+    <p id='nickname' th:text="${el.nickname}" style="margin: 0px; font-weight: bold"></p>
+  </div>
+  <div style="display: flex; flex-direction: row">
+    <label for="surename" style="margin-right: 10px" >Имя:</label>
+    <p id='surename' th:text="${el.surename}" style="margin: 0px"></p>
+  </div>
+
+  <div style="display: flex; flex-direction: row">
+    <label for="name" style="margin-right: 10px">Фамилия:</label>
+    <p id='name' th:text="${el.name}" style="margin: 0px"></p>
+  </div>
+
+  <div style="display: flex; flex-direction: row">
+    <label for="patron" style="margin-right: 10px">Отчетство:</label>
+    <p id='patron' th:text="${el.patron}" style="margin: 0px"></p>
+  </div>
+
+  <div style="display: flex; flex-direction: row">
+    <label for="about_me" style="margin-right: 10px" >Про себя:</label>
+    <p id='about_me' th:text="${el.about_me}" style="margin: 0px"></p>
+  </div>
+
+  <div style="display: flex; flex-direction: row">
+    <label for="age" style="margin-right: 10px" >Возраст:</label>
+    <p id='age' th:text="${el.age}" style="margin: 0px"></p>
+  </div>
+
+  <a th:href="'/blog/profiles/' + ${el.id} + '/edit'">Редактировать</a>
+  <form th:action="'/blog/profiles/' + ${el.id} + '/remove'" method="post">
+    <button type="submit" class="btn btn-del">Удалить</button>
+  </form>
+
+</div>
+</body>
+</html>

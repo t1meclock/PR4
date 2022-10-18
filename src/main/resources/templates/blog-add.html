@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Добавление новой статьи</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+  .form-control {
+    display: block;
+    width: 50%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  }
+</style>
+</head>
+<body>
+<form th:action="${'/blog/add'}" method="post">
+  <p>Введите название статьи: </p>
+  <input type="text" class="form-control" name="title" placeholder="Введите название статьи">
+  <p>Введите анонс статьи: </p>
+  <input type="text" class="form-control" name="anons" placeholder="Введите анонс статьи">
+  <p>Введите текст статьи: </p>
+  <textarea name="full_text" class="form-control" placeholder="Введите текст статьи"></textarea>
+  <br>
+  <button type="submit" style="border-radius: 12px; border: none; font-size: 16px;
+  margin: 4px 2px; background-color: bisque;">Добавить статью</button>
+</form>
+</body>
+</html>
