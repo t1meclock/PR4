@@ -27,7 +27,7 @@
 <h2>Поиск</h2>
 <form>
     <div style="display: flex; flex-direction: column; width: 200px">
-        <input type="text" name="title" class="form-control" placeholder="Название статьи">
+        <input type="text" name="title" class="form-control" placeholder="Название поста">
         <br>
         <button formaction="/blog/filter/result" formmethod="post" type="submit" style="border-radius: 12px; border: none; font-size: 16px;
         margin: 4px 2px; background-color: bisque;">Неточный поиск</button>
@@ -38,7 +38,7 @@
     <br>
     <div th:each="el : ${results}">
         <div style="display: flex; flex-direction: row">
-            <label for="title" style="margin-right: 10px">Название статьи:</label>
+            <label for="title" style="margin-right: 10px">Название поста:</label>
             <h3 id="title" th:text="${el.title}" style="margin: 0px"></h3>
         </div>
 
@@ -48,7 +48,7 @@
         </div>
 
         <div style="display: flex; flex-direction: row">
-            <label for="full" style="margin-right: 10px">Текст статьи:</label>
+            <label for="full" style="margin-right: 10px">Текст поста:</label>
             <p id="full" th:text="${el.full_text}" style="margin: 0px"></p>
         </div>
         <p>==========================</p>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Редактирование статьи</title>
+    <title>Редактирование поста</title>
 </head>
 <body>
 <div th:each="el:${post}">
@@ -11,7 +11,7 @@
     <h3 th:text="${el.title}"></h3>
     <p>Анонс: </p>
     <p th:text="${el.anons}"></p>
-    <p>Текст статьи: </p>
+    <p>Текст поста: </p>
     <p th:text="${el.full_text}"></p>
     <a th:href="'/blog/' + ${el.id} + '/edit'">Редактировать</a>
     <br>

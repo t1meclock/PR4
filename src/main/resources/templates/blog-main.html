@@ -124,7 +124,7 @@
         <div th:each="el : ${posts}">
             <div class="content_box">
                 <div class="box-flex">
-                    <label class="text_box label__text" for="title" >Название статьи:</label>
+                    <label class="text_box label__text" for="title" >Название поста:</label>
                     <h3 class="text_box" id="title" th:text="${el.title}" ></h3>
                 </div>
 
@@ -134,7 +134,7 @@
                 </div>
 
                 <div class="box-flex box-margin">
-                    <label class="text_box label__text" for="anons" >Текст статьи:</label>
+                    <label class="text_box label__text" for="anons" >Текст поста:</label>
                     <p class="text_box" id="full_text" th:text="${el.full_text}" ></p>
                 </div>
 
