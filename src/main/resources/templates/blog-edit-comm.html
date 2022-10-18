@@ -8,8 +8,8 @@
 <div th:each="el : ${comm}" style="display: flex; flex-direction: column; width: 200px">
     <form method="post">
         <input type="text" th:value="${el.caption}" name="caption" placeholder="Заголовок">
-        <input type="text" th:value="${el.comm}" name="comm" placeholder="Текст комментария">
-        <input type="text" th:value="${el.author}" name="author" placeholder="Автор комментария">
+        <input type="text" th:value="${el.comm}" name="comm" placeholder="Текст отзыва">
+        <input type="text" th:value="${el.author}" name="author" placeholder="Автор отзыва">
         <input type="datetime-local" th:value="${el.time}" name="time" placeholder="Дата">
         <label>Оценка:</label>
         <label for="one">1</label>
