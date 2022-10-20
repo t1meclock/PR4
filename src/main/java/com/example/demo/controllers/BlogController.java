@@ -9,8 +9,12 @@ import com.example.demo.repo.PostRepository;
 import com.example.demo.models.Post;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,17 +30,14 @@ public class BlogController {
     @Autowired
     private CommRepository commRepository;
 
+    private String _authorOfComment;
+
     @GetMapping("/")
     public String blogMain(Model model) {
         Iterable<Post> posts = postRepository.findAll();
         model.addAttribute("posts", posts);
         return "blog-main";
     }
-
-//    @RequestMapping(value="/", method = RequestMethod.GET)
-//    public String getSuccess() {
-//        return "blog-main";
-//    }
 
     @GetMapping("/blog/add")
     public String blogAdd(Model model) {
@@ -49,6 +50,7 @@ public class BlogController {
                               @RequestParam String full_text, Model model) {
         Post post = new Post(title, anons, full_text);
         postRepository.save(post);
+
         return "redirect:/";
     }
 
@@ -65,6 +67,7 @@ public class BlogController {
         model.addAttribute("results", results);
 //        List<Post> result = postRepository.findByTitleContains(title);
 //        model.addAttribute("result", result);
+
         return "blog-filter";
     }
 
@@ -75,66 +78,78 @@ public class BlogController {
         model.addAttribute("results", results);
 //        List<Post> result = postRepository.findByTitleContains(title);
 //        model.addAttribute("result", result);
+
         return "blog-filter";
     }
 
     @GetMapping("/blog/profile")
-    public String blogProfile(Model model)
+    public String blogProfileAdd(Profile profile, Model model)
     {
         Iterable<Profile> profiles = profileRepository.findAll();
         model.addAttribute("profiles", profiles);
+
         return "blog-profile";
     }
 
 
     @PostMapping("/blog/profile")
-    public String blogPostProfile(@RequestParam String nickname,
-                                  @RequestParam String surename,
-                                  @RequestParam String name,
-                                  @RequestParam String patron,
-                                  @RequestParam String about_me,
-                                  @RequestParam int age, Model model) {
-        Profile profile = new Profile(nickname, surename, name, patron, about_me, age);
+    public String blogPostProfile(@ModelAttribute ("profile") @Valid Profile profile,
+                                  BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "blog-profile";
+        }
+
         profileRepository.save(profile);
-        model.addAttribute("nickname", nickname);
-        model.addAttribute("surename", surename);
-        model.addAttribute("name", name);
-        model.addAttribute("patron", patron);
-        model.addAttribute("about_me", about_me);
-        String str2 = Integer.toString(age);
-        model.addAttribute("age", str2);
-        return "blog-profile";
+
+        return "redirect:/";
+
     }
 
     @GetMapping("/blog/comm")
     public String blogComments(Model model) {
 
-        Iterable<Comm> comments = commRepository.findAll();
-        model.addAttribute("comm", comments);
+        Iterable<Comm> comment = commRepository.findAll();
+        model.addAttribute("comment", comment);
 
         return "blog-comm";
     }
 
     @GetMapping("/blog/comm/add")
-    public String blogCommentsAdd(Model model)
+    public String blogCommentsAdd(Comm comm, Model model)
     {
+        Iterable<Comm> comms = commRepository.findAll();
+        model.addAttribute("comms", comms);
 
         return "blog-comm-add";
     }
 
+
+//    String caption,
+//    String comnt,
+//    String author,
+//    @RequestParam String mark,
+//      Model model,
     @PostMapping("blog/comm/add")
-    public String blogCommentsAdd(@RequestParam String caption,
-                                  @RequestParam String comm,
-                                  @RequestParam String author,
-                                  @RequestParam String mark,
-                                  @RequestParam String time, Model model){
-        Comm comment = new Comm(caption, comm, author, mark, time);
-        commRepository.save(comment);
-        model.addAttribute("caption", caption);
-        model.addAttribute("comm", comm);
-        model.addAttribute("author", author);
-        model.addAttribute("mark", mark);
-        model.addAttribute("time", time);
+    public String blogCommentsAdd(@ModelAttribute ("comm") @Valid Comm comm,
+                                  BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            return "blog-comm-add";
+        }
+
+//        int mrk = Integer.parseInt(mark);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTime = LocalDateTime.now();
+        String formattedDateTime = dateTime.format(formatter); // "1986-04-08 12:30"
+
+        comm.setActionDate(formattedDateTime);
+        commRepository.save(comm);
+//        model.addAttribute("caption", caption);
+//        model.addAttribute("comnt", comnt);
+//        model.addAttribute("author", author);
+//        model.addAttribute("mark", mark);
+//        model.addAttribute("time", formattedDateTime);
 
         return "redirect:/blog/comm";
     }
@@ -142,48 +157,40 @@ public class BlogController {
     @GetMapping("/blog/profiles/{id}")
     public String blogDetailsProfiles(@PathVariable(value = "id") long id, Model model)
     {
+        if(!profileRepository.existsById(id))
+        {
+            return "redirect:/";
+        }
+
         Optional<Profile> profiles = profileRepository.findById(id);
         ArrayList<Profile> res = new ArrayList<>();
         profiles.ifPresent(res::add);
         model.addAttribute("profiles", res);
-        if(!profileRepository.existsById(id))
-        {
-            return "redirect:/blog";
-        }
 
         return "blog-details-profiles";
     }
 
     @GetMapping("/blog/profiles/{id}/edit")
-    public String blogEditProfiles(@PathVariable("id") long id, Model model)
+    public String blogEditProfiles(@PathVariable(value = "id") long id, Profile profiles, Model model)
     {
-        if(!profileRepository.existsById(id)) {
+        if(!profileRepository.existsById(id)){
             return "redirect:/";
         }
 
         Optional<Profile> profile = profileRepository.findById(id);
-        ArrayList<Profile> res = new ArrayList<>();
-        profile.ifPresent(res::add);
-        model.addAttribute("profiles", res);
-        return "blog-edit-profiles";
+//        ArrayList<Profile> res = new ArrayList<>();
+//        profile.ifPresent(res::add);
+        model.addAttribute("profile", profile.get());
 
+        return "blog-edit-profiles";
     }
 
     @PostMapping("blog/profiles/{id}/edit")
-    public String blogProfilesUpdate(@PathVariable("id") long id,
-                                     @RequestParam String nickname,
-                                     @RequestParam String surename,
-                                     @RequestParam String name,
-                                     @RequestParam String patron,
-                                     @RequestParam String about_me,
-                                     @RequestParam int age, Model model) {
-        Profile profile = profileRepository.findById(id).orElseThrow();
-        profile.setNickname(nickname);
-        profile.setSurename(surename);
-        profile.setName(name);
-        profile.setPatron(patron);
-        profile.setAbout_me(about_me);
-        profile.setAge(age);
+    public String blogProfilesUpdate(@ModelAttribute ("profile") @Valid Profile profile, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "blog-edit-profiles";
+        }
+
         profileRepository.save(profile);
         return "redirect:/";
     }
@@ -192,28 +199,15 @@ public class BlogController {
     public String blogBlogProfilesDelete(@PathVariable("id") long id, Model model) {
         Profile profile = profileRepository.findById(id).orElseThrow();
         profileRepository.delete(profile);
+
         return "redirect:/";
     }
 
     @GetMapping("/blog/{id}")
     public String blogDetails(@PathVariable(value = "id") long id, Model model)
     {
-        Optional<Post> post = postRepository.findById(id);
-        ArrayList<Post> res = new ArrayList<>();
-        post.ifPresent(res::add);
-        model.addAttribute("post", res);
         if(!postRepository.existsById(id))
         {
-            return "redirect:/blog";
-        }
-
-        return "blog-details";
-    }
-
-    @GetMapping("/blog/{id}/edit")
-    public String blogEdit(@PathVariable("id") long id, Model model)
-    {
-        if(!postRepository.existsById(id)) {
             return "redirect:/";
         }
 
@@ -221,20 +215,33 @@ public class BlogController {
         ArrayList<Post> res = new ArrayList<>();
         post.ifPresent(res::add);
         model.addAttribute("post", res);
-        return "blog-edit";
 
+        return "blog-details";
+    }
+
+    @GetMapping("/blog/{id}/edit")
+    public String blogEdit(@PathVariable(value = "id") long id, Post posts, Model model)
+    {
+        if(!postRepository.existsById(id)){
+            return "redirect:/";
+        }
+
+        Optional<Post> post = postRepository.findById(id);
+//        ArrayList<Post> res = new ArrayList<>();
+//        post.ifPresent(res::add);
+        model.addAttribute("post", post.get());
+
+        return "blog-edit";
     }
 
     @PostMapping("blog/{id}/edit")
-    public String blogPostUpdate(@PathVariable("id") long id,
-                                 @RequestParam String title,
-                                 @RequestParam String anons,
-                                 @RequestParam String full_text, Model model) {
+    public String blogPostUpdate(@ModelAttribute ("post") @Valid Post post,
+                                 BindingResult bindingResult) {
 
-        Post post = postRepository.findById(id).orElseThrow();
-        post.setTitle(title);
-        post.setAnons(anons);
-        post.setFull_text(full_text);
+        if(bindingResult.hasErrors()){
+            return "blog-edit";
+        }
+
         postRepository.save(post);
         return "redirect:/";
     }
@@ -249,49 +256,53 @@ public class BlogController {
     @GetMapping("/blog/comm/{id}")
     public String blogDetailsComm(@PathVariable(value = "id") long id, Model model)
     {
+        if(!commRepository.existsById(id))
+        {
+            return "redirect:/";
+        }
+
         Optional<Comm> comm = commRepository.findById(id);
         ArrayList<Comm> res = new ArrayList<>();
         comm.ifPresent(res::add);
         model.addAttribute("comm", res);
-        if(!commRepository.existsById(id))
-        {
-            return "redirect:/blog";
-        }
 
         return "blog-details-comm";
     }
 
     @GetMapping("/blog/comm/{id}/edit")
-    public String blogEditComm(@PathVariable("id") long id, Model model)
+    public String blogEditComm(@PathVariable(value = "id") long id, Model model)
     {
-        if(!commRepository.existsById(id))  {
-            return "redirect:/blog";
-        }
-
         Optional<Comm> comm = commRepository.findById(id);
-        ArrayList<Comm> res = new ArrayList<>();
-        comm.ifPresent(res::add);
-        model.addAttribute("comm", res);
+//        ArrayList<Comm> res = new ArrayList<>();
+//        comm.ifPresent(res::add);
+        model.addAttribute("comm", comm.get ());
 
         return "blog-edit-comm";
     }
 
-    @PostMapping("blog/comm/{id}/edit")
-    public String blogUpdateComm(@PathVariable("id") long id,
-                                 @RequestParam String caption,
-                                 @RequestParam String comm,
-                                 @RequestParam String time,
-                                 @RequestParam String author,
-                                 @RequestParam String mark,
-                                  Model model) {
 
-        Comm comms = commRepository.findById(id).orElseThrow();
-        comms.setCaption(caption);
-        comms.setComm(comm);
-        comms.setTime(time);
-        comms.setAuthor(author);
-        comms.setMark(mark);
-        commRepository.save(comms);
+//    @RequestParam String caption,
+//    @RequestParam String comnt,
+    @PostMapping("/blog/comm/{id}/edit")
+    public String blogUpdateComm(@ModelAttribute ("comm") @Valid Comm comm,
+                                 BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "blog-edit-comm";
+        }
+
+//        int mrk = comm.getMark();
+
+//        if (mark != null) {
+//            mrk = Integer.parseInt(mark);
+//        }
+
+//        comm.setCaption(caption);
+//        comm.setComnt(comnt);
+//        comm.setAuthor(comm.getAuthor());
+//        comm.setActionDate(comm.getActionDate());
+//        comm.setMark(mrk);
+        commRepository.save(comm);
+
         return "redirect:/blog/comm";
     }
 
@@ -299,10 +310,11 @@ public class BlogController {
     public String blogBlogDeleteComm(@PathVariable("id") long id, Model model) {
         Comm comm = commRepository.findById(id).orElseThrow();
         commRepository.delete(comm);
+
         return "redirect:/blog/comm";
     }
 
-    @GetMapping("/blog/filtercomm")
+    @GetMapping("/blog/filter/comm")
     public String blogFilterComments(Model model)
     {
         return "blog-comm-filter";
@@ -311,8 +323,8 @@ public class BlogController {
     @PostMapping("/blog/filter/comment")
     public String blogResultComments(@RequestParam String author, Model model)
     {
-        List<Comm> results = commRepository.findByAuthorContains(author);
-        model.addAttribute("results", results);
+        List<Comm> result = commRepository.findByAuthorContains(author);
+        model.addAttribute("result", result);
 //        List<Post> result = postRepository.findByTitleContains(title);
 //        model.addAttribute("result", result);
         return "blog-comm-filter";
@@ -321,14 +333,14 @@ public class BlogController {
     @PostMapping("/blog/filter/comments")
     public String blogResultsComments(@RequestParam String author, Model model)
     {
-        List<Comm> results = commRepository.findByAuthor(author);
-        model.addAttribute("results", results);
+        List<Comm> result = commRepository.findByAuthor(author);
+        model.addAttribute("result", result);
 //        List<Post> result = postRepository.findByTitleContains(title);
 //        model.addAttribute("result", result);
         return "blog-comm-filter";
     }
 
-    @GetMapping("/blog/filterprofile")
+    @GetMapping("/blog/filter/profile")
     public String blogFilterProfile(Model model)
     {
         return "blog-profiles-filter";

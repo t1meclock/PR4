@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Поиск отзывов</title>
@@ -120,19 +120,19 @@
     </div>
 
 
-    <div class="content_box" th:each="el : ${results}">
+    <div class="content_box" th:each="el : ${result}">
       <div class="box-flex">
-        <label   for="author" class="text_box label__text">Автор:</label>
+        <label for="author" class="text_box label__text">Автор:</label>
         <p id='author' th:text="${el.author}" class="text_box"></p>
       </div>
 
       <div class="box-flex">
-        <label for="comm" class="text_box label__text" >Текст отзыва:</label>
-        <p id='comm' th:text="${el.comm}" class="text_box"></p>
+        <label for="comnt" class="text_box label__text" >Текст отзыва:</label>
+        <p id='comnt' th:text="${el.comnt}" class="text_box"></p>
       </div>
       <div class="box-flex">
         <label for="time" class="text_box label__text" >Дата написания отзыва:</label>
-        <p id='time' th:text="${el.time}" class="text_box"></p>
+        <p id='time' th:text="${el.actionDate}" class="text_box"></p>
       </div>
 
       <div class="box-flex">

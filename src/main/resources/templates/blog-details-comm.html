@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,8 +11,8 @@
         <p id='caption' th:text="${el.caption}" style="margin: 0px; font-weight: bold"></p>
     </div>
     <div style="display: flex; flex-direction: row">
-        <label for="comm" style="margin-right: 10px" >Текст отзыва:</label>
-        <p id='comm' th:text="${el.comm}" style="margin: 0px"></p>
+        <label for="comnt" style="margin-right: 10px" >Текст отзыва:</label>
+        <p id='comnt' th:text="${el.comnt}" style="margin: 0px"></p>
     </div>
 
     <div style="display: flex; flex-direction: row">
@@ -22,7 +22,7 @@
 
     <div style="display: flex; flex-direction: row">
         <label for="time" style="margin-right: 10px" >Дата написания отзыва:</label>
-        <p id='time' th:text="${el.time}" style="margin: 0px"></p>
+        <p id='time' th:text="${el.actionDate}" style="margin: 0px"></p>
     </div>
 
     <div style="display: flex; flex-direction: row">

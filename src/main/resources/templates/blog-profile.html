@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Создание профиля</title>
@@ -76,7 +76,7 @@
     <div class="header__profile">
       <h1 class="header__title">Профиль</h1>
       <div class="profiles">
-        <a class="links" href="/blog/filterprofile">Поиск профилей</a>
+        <a class="links" href="/blog/filter/profile">Поиск профилей</a>
 
       </div>
     </div>
@@ -85,20 +85,26 @@
       <a class="links other-link" href="/blog/comm">Отзывы</a>
     </div>
   </header>
-  <form>
+  <form method="post" th:each="el : ${profile}" th:object="${profile}">
     <div style="display: flex; flex-direction: column; width: 200px">
       <p>Никнейм: </p>
-      <input type="text" class="form-control" name="nickname" placeholder="Введите никнейм">
+      <input type="text" class="form-control" th:field="*{nickname}" name="nickname" placeholder="Введите никнейм">
+      <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
       <p>Фамилия: </p>
-      <input type="text" class="form-control" name="surename" placeholder="Введите фамилию">
+      <input type="text" class="form-control"  th:field="*{surename}" name="surename" placeholder="Введите фамилию">
+      <div th:if="${#fields.hasErrors('surename')}" th:errors="*{surename}"></div>
       <p>Имя: </p>
-      <input type="text" class="form-control" name="name" placeholder="Введите имя">
+      <input type="text" class="form-control" th:field="*{name}" name="name" placeholder="Введите имя">
+      <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
       <p>Отчество: </p>
-      <input type="text" class="form-control" name="patron" placeholder="Введите отчество">
+      <input type="text" class="form-control" th:field="*{patron}" name="patron" placeholder="Введите отчество">
+      <div th:if="${#fields.hasErrors('patron')}" th:errors="*{patron}"></div>
       <p>О себе: </p>
-      <textarea name="about_me" class="form-control" placeholder="Напишите что-нибудь о себе"></textarea>
+      <textarea name="about_me" class="form-control" th:field="*{about_me}" placeholder="Напишите что-нибудь о себе"></textarea>
+      <div th:if="${#fields.hasErrors('about_me')}" th:errors="*{about_me}"></div>
       <p>Возраст: </p>
-      <input type="number"class="form-control" name="age" placeholder="Введите возраст">
+      <input type="number" class="form-control"  th:field="*{age}" name="age" placeholder="Введите возраст">
+      <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
       <br>
       <button formmethod="post" formaction="/blog/profile" type="submit" style="border-radius: 12px; border: none; font-size: 16px;
   margin: 4px 2px; background-color: bisque;">Создать профиль</button>

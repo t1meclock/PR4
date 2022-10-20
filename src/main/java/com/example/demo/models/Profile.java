@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 
     @Entity
     public class Profile {
@@ -22,7 +23,19 @@ import javax.persistence.Id;
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private Long id;
-        private String nickname, surename, name, patron, about_me;
+        @NotEmpty(message = "Поле не может быть пустым")
+        @NotBlank(message = "Поле не должно состоять только из пробелов")
+        @Size(min = 2, max = 40, message = "Размер данного поля должен быть в диапазоне от 2 до 40")
+        private String nickname, surename, name;
+
+        @NotEmpty(message = "Поле не может быть пустым")
+        @NotBlank(message = "Поле не должно состоять только из пробелов")
+        @Size(min = 2, max = 50, message = "Размер данного поля должен быть в диапазоне от 2 до 50")
+        private String patron, about_me;
+
+        @Min(value = 18, message = "Пользователь должен быть старше 18")
+        @NotNull(message = "Поле не может быть пустым")
+        @Positive(message = "Поле должно быть больше 0")
         private int age;
 
         public Long getId() {

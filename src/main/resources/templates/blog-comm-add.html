@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
 <body>
-<form method="post">
-  <input type="text" name="caption" placeholder="Заголовок">
-  <input type="text" name="comm" placeholder="Текст отзыва">
-  <input type="text" name="author" placeholder="Автор отзыва">
-  <label>Оценка:</label>
-  <label for="one">1</label>
-  <input type="radio" id="one" name="mark" value="1">
-  <label for="two">2</label>
-  <input type="radio" id="two" name="mark" value="2">
-  <label for="three">3</label>
-  <input type="radio" id="three" name="mark" value="3">
-  <label for="four">4</label>
-  <input type="radio" id="four" name="mark" value="4">
-  <label for="five">5</label>
-  <input type="radio" id="five" name="mark" value="5">
-  <input type="datetime-local" name="time" placeholder="Дата">
-  <button type="submit">Добавить комментарий</button>
+<form method="post" th:each="el : ${comm}" th:object="${comm}">
+    <input type="text" th:field="*{caption}" name="caption" placeholder="Заголовок">
+    <div th:if="${#fields.hasErrors('caption')}" th:errors="*{caption}"></div>
+    <input type="text" th:field="*{comnt}" name="comnt" placeholder="Текст отзыва">
+    <div th:if="${#fields.hasErrors('comnt')}" th:errors="*{comnt}"></div>
+    <input type="text" th:field="*{author}" name="author" placeholder="Автор отзыва">
+    <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
+    <label>Оценка:</label>
+    <label for="one">1</label>
+    <input type="radio" id="one" name="mark" value="1">
+    <label for="two">2</label>
+    <input type="radio" id="two" name="mark" value="2">
+    <label for="three">3</label>
+    <input type="radio" id="three" name="mark" value="3">
+    <label for="four">4</label>
+    <input type="radio" id="four" name="mark" value="4">
+    <label for="five">5</label>
+    <input type="radio" id="five" name="mark" value="5">
+    <button type="submit">Добавить комментарий</button>
 </form>
 </body>
 </html>

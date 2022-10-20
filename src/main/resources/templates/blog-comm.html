@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Отзывы</title>
@@ -115,19 +115,19 @@
             <a class="links other-link" href="/">Посты</a>
             <a class="links other-link" href="/blog/profile">Профили</a>
             <a class="links other-link" href="/blog/comm/add">Добавить отзывы</a>
-            <a class="links" href="/blog/filtercomm">Поиск отзывов</a>
+            <a class="links" href="/blog/filter/comm">Поиск отзывов</a>
         </div>
     </header>
 
-    <form >
-        <div class="content_box" th:each="el : ${comm}">
+    <div th:each="el : ${comment}">
+        <div class="content_box">
             <div class="box-flex">
                 <label class="text_box label__text" for="caption" style="margin-right: 10px">Заголовок:</label>
                 <p id='caption' th:text="${el.caption}" class="text_box"></p>
             </div>
             <div class="box-flex">
-                <label class="text_box label__text" for="comm" style="margin-right: 10px" >Текст комментария:</label>
-                <p id='comm' th:text="${el.comm}" class="text_box"></p>
+                <label class="text_box label__text" for="comm" style="margin-right: 10px" >Текст отзыва:</label>
+                <p id='comm' th:text="${el.comnt}" class="text_box"></p>
             </div>
 
             <div class="box-flex">
@@ -136,8 +136,8 @@
             </div>
 
             <div class="box-flex">
-                <label class="text_box label__text" for="time" style="margin-right: 10px" >Дата написания комментария:</label>
-                <p id='time' th:text="${el.time}" class="text_box"></p>
+                <label class="text_box label__text" for="time" style="margin-right: 10px" >Дата написания отзыва:</label>
+                <p id='time' th:text="${el.actionDate}" class="text_box"></p>
             </div>
 
             <div class="box-flex box-margin">
@@ -146,7 +146,7 @@
             </div>
             <a class="links link-more" th:href="'/blog/comm/' + ${el.id}">Подробнее</a>
         </div>
-    </form>
+    </div>
 </div>
 </body>
 </html>

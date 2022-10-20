@@ -5,14 +5,20 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<div th:each="el : ${profiles}">
+<div th:each="el : ${profile}" th:object="${profile}">
     <form method="post">
-        <input th:value="${el.nickname}" type="text" name="nickname" placeholder="Никнейм">
-        <input th:value="${el.surename}" type="text" name="surename" placeholder="Фамилия">
-        <input th:value="${el.name}" type="text" name="name" placeholder="Имя">
-        <input th:value="${el.patron}" type="text" name="patron" placeholder="Отчество">
-        <textarea th:value="${el.about_me}" type="text" name="about_me" placeholder="Обо мне"></textarea>
-        <input th:value="${el.age}" type="number" name="age" placeholder="Возраст">
+        <input th:field="*{nickname}" type="text" th:value="*{nickname}" name="nickname" placeholder="Никнейм">
+        <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
+        <input th:field="*{surename}" type="text" th:value="*{surename}" name="surename" placeholder="Фамилия">
+        <div th:if="${#fields.hasErrors('surename')}" th:errors="*{surename}"></div>
+        <input th:field="*{name}" type="text" th:value="*{name}" name="name" placeholder="Имя">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        <input th:field="*{patron}" type="text" th:value="*{patron}" name="patron" placeholder="Отчество">
+        <div th:if="${#fields.hasErrors('patron')}" th:errors="*{patron}"></div>
+        <textarea th:field="*{about_me}" type="text" th:value="*{about_me}" name="about_me" placeholder="Обо мне"></textarea>
+        <div th:if="${#fields.hasErrors('about_me')}" th:errors="*{about_me}"></div>
+        <input th:field="*{age}" type="number" th:value="*{age}" name="age" placeholder="Возраст">
+        <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
         <br>
         <button type="submit">Сохранить изменения</button>
     </form>

@@ -1,29 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .page{
+            margin: 0 auto;
+            padding-top: 28px;
+        }
+        h1,h2,h3{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        p{
+            margin: 0;
+            padding: 0;
+        }
+        .header{
+            width: 1221px;
+            height: 80px;
+            margin: 0 auto 26px;
+            align-items: center;
+        }
+        .header__title{
+            padding-left: 17px;
+            border-left: 1px black solid;
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 38px;
+            height: 60px;
+            padding-top: 21px;
+        }
+        .form_class{
+            height: 550px;
+            width: 439px;
+            margin: 50px auto 0;
+
+        }
+        .input-flex{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .input-class{
+            width: 371px;
+            height: 49px;
+            background: #D6D6D6;
+            border: 1px solid #898989;
+            border-radius: 20px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 19px;
+            text-align: center;
+            color: black;
+            padding: 0;
+            margin-bottom: 24px;
+        }
+        .input-date{
+            padding: 0 20px;
+            width: 330px;
+        }
+        .button-class{
+            width: 188px;
+            height: 49px;
+            background: #D6D6D6;
+            border-radius: 20px;
+            border: none;
+            transition: background .5s linear;
+            cursor: pointer;
+        }
+        .button-class:hover{
+            background: #8F8F8F;
+        }
+        .txtarea-class{
+            height: 50px;
+            padding: 15px 0;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<div th:each="el : ${comm}" style="display: flex; flex-direction: column; width: 200px">
-    <form method="post">
-        <input type="text" th:value="${el.caption}" name="caption" placeholder="Заголовок">
-        <input type="text" th:value="${el.comm}" name="comm" placeholder="Текст отзыва">
-        <input type="text" th:value="${el.author}" name="author" placeholder="Автор отзыва">
-        <input type="datetime-local" th:value="${el.time}" name="time" placeholder="Дата">
+<div th:each="el : ${comm}" th:object="${comm}" class="form_class" style="display: flex; flex-direction: column; width: 200px">
+    <form method="post" class="input-flex">
+        <input class="input-class" type="text" th:field="*{caption}" th:value="*{caption}" name="caption" placeholder="Заголовок отзыва">
+        <div th:if="${#fields.hasErrors('caption')}" th:errors="*{caption}"></div>
+        <input class="input-class" type="text" th:field="*{comnt}" th:value="*{comnt}" name="comnt" placeholder="Текст отзыва">
+        <div th:if="${#fields.hasErrors('comnt')}" th:errors="*{comnt}"></div>
         <label>Оценка:</label>
         <label for="one">1</label>
-        <input type="radio" th:value="${el.mark}" id="one" name="mark" value="1">
+        <input type="radio" id="one" name="mark" value="1" checked="true">
         <label for="two">2</label>
-        <input type="radio" th:value="${el.mark}" id="two" name="mark" value="2">
+        <input type="radio" id="two" name="mark" value="2">
         <label for="three">3</label>
-        <input type="radio" th:value="${el.mark}" id="three" name="mark" value="3">
+        <input type="radio" id="three" name="mark" value="3">
         <label for="four">4</label>
-        <input type="radio" th:value="${el.mark}" id="four" name="mark" value="4">
+        <input type="radio" id="four" name="mark" value="4">
         <label for="five">5</label>
-        <input type="radio" th:value="${el.mark}" id="five" name="mark" value="5">
-        <br>
-        <button type="submit">Сохранить изменения</button>
+        <input type="radio" id="five" name="mark" value="5">
+        <button class="button-class" type="submit">Сохранить изменения</button>
+        <input class="hidden" type="text" th:field="*{author}" th:value="*{author}" name="author">
+        <input class="hidden" type="text" th:field="*{actionDate}" th:value="*{actionDate}" name="actionDate">
     </form>
 </div>
 </body>
